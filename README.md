@@ -27,6 +27,26 @@ By using this system, you are accessing the `adsb.fi` public API endpoints. Plea
 - **For more information about the API:** [ADSB.fi OpenData Repository](https://github.com/adsbfi/opendata/blob/main/README.md)
 - **To watch real-time global visuals:** [ADSB.fi Global Map](https://globe.adsb.fi/)
 
+## Email Alert Structure
+
+When an aircraft matches your configuration rules and enters the zone, the system will send an email structured like this:
+
+**Subject:** `Aircraft Alert - [dag_id]`
+
+```text
+The following aircraft triggered alerts:
+
+- Hex: 4bb2aa, Reg: TC-LUJ, Callsign: TKJ5227, Status: NEW_ENTRY
+```
+
+### Understanding the Fields:
+- **Hex:** The unique ICAO 24-bit address assigned to the aircraft (e.g., `4bb2aa`).
+- **Reg (Registration):** The tail number/registration of the aircraft (e.g., `TC-LUJ`). *Note: Sometimes this data is missing from the API depending on receiver coverage.*
+- **Callsign:** The flight number or callsign the aircraft is currently transmitting (e.g., `TKJ5227`).
+- **Status:** 
+  - `NEW_ENTRY`: The aircraft has entered the tracked zone for the first time.
+  - `RE_ENTRY_ALERT`: The aircraft has been inside the zone or re-entered it, and it has been **more than 30 minutes** since the last alert was sent for this specific aircraft.
+
 ## Object-Oriented Database Connection
 
 To ensure scalability and ease of use in future development, database interactions are abstracted using an Object-Oriented approach. 
