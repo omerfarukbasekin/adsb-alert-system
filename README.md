@@ -24,11 +24,14 @@ By using this system, you are accessing the `adsb.fi` public API endpoints. Plea
 - **Penalties:** Making excessive invalid HTTP requests (status codes 400, 401, 403, 404, or 429) will result in a temporary IP address restriction. 
 - **Airflow Handling:** The Airflow `fetch_data` task explicitly checks for these error codes to fail the task properly rather than pushing empty/invalid data downstream.
 
+- **For more information about the API:** [ADSB.fi OpenData Repository](https://github.com/adsbfi/opendata/blob/main/README.md)
+- **To watch real-time global visuals:** [ADSB.fi Global Map](https://globe.adsb.fi/)
+
 ## Object-Oriented Database Connection
 
 To ensure scalability and ease of use in future development, database interactions are abstracted using an Object-Oriented approach. 
 
-The `DBConnector` class (located in `dags/tasks/db_connector.py`) handles all connectivity requirements using credentials from the `.env` file. Any new task module that requires database access can easily instantiate this class without rewriting connection logic:
+The `DBConnector` class (located in [`dags/tasks/db_connector.py`](dags/tasks/db_connector.py)) handles all connectivity requirements using credentials from the `.env` file. Any new task module that requires database access can easily instantiate this class without rewriting connection logic:
 
 ```python
 from tasks.db_connector import DBConnector
@@ -38,15 +41,18 @@ conn = db.get_connection()
 cursor = conn.cursor()
 ```
 
+### Zero-Touch Airflow Configuration
+Thanks to the environment variable injection configured in our [`docker/docker-compose.yml`](docker/docker-compose.yml), **you do not need to manually create any Connections or Variables in the Airflow UI**. The PostgreSQL connection, Airflow webserver configurations, and SMTP credentials are all injected dynamically at boot time from your `.env` file.
+
 ## Dynamic DAG Generation
 
-Instead of writing a separate Airflow DAG Python file for every zone you want to monitor, this system uses `dags/dynamic_dag_generator.py` to parse the `config/trackers.yaml` file. Airflow will automatically create a unique DAG for every block defined in the YAML.
+Instead of writing a separate Airflow DAG Python file for every zone you want to monitor, this system uses [`dags/dynamic_dag_generator.py`](dags/dynamic_dag_generator.py) to parse the [`config/trackers.yaml`](config/trackers.yaml) file. Airflow will automatically create a unique DAG for every block defined in the YAML.
 
 This allows you to scale the system configurationally without modifying Python code.
 
 ## Configuration Usage
 
-All zones are defined in `config/trackers.yaml`.
+All zones are defined in [`config/trackers.yaml`](config/trackers.yaml).
 Each item must contain:
 - `dag_id`: The unique identifier for Airflow.
 - `schedule`: Standard CRON expression.
