@@ -1,0 +1,25 @@
+trackers:
+  - dag_id: helicopter_tracker
+    schedule: "* * * * *"
+    location:
+      lat: 41.0790  # Latitude for Kolektif House Levent Istanbul, Turkey
+      lon: 29.0086  # Longitude for Kolektif House Levent Istanbul, Turkey
+      radius_nm: 2
+    target_filters:
+      category_codes: ["4", "A7", "H"]
+      description_keywords: ["HELI", "ROTOR", "H"]
+    alert_config:
+      email_to: ["omerfarukbasekin@gmail.com"]
+      email_cc: ["omerfarukbasekin@gmail.com", "kkalle@arcanor.com"]
+#  - dag_id: plane_tracker
+#    schedule: "*/10 * * * *"
+#    location:
+#      lat: 41.0082
+#      lon: 28.9784
+#      radius_nm: 50
+#    target_filters:
+#      category_codes: ["1", "2"]
+#      description_keywords: ["BOEING", "AIRBUS"]
+#    alert_config:
+#      email_to: ["omerfarukbasekin@gmail.com"]
+#      email_cc: []
