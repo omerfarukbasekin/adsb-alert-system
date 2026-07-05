@@ -56,7 +56,8 @@ All zones are defined in [`config/trackers.yaml`](config/trackers.yaml).
 Each item must contain:
 - `dag_id`: The unique identifier for Airflow.
 - `schedule`: Standard CRON expression.
-- `location`: Contains `lat`, `lon`, and `radius_nm`.
+- `location`: Contains `lat`, `lon`, and `radius_nm`. 
+  > *Note: The example coordinates (41.0797, 29.0086) used in the template were sourced from Google Maps representing Kolektif House Levent, Istanbul.*
 - `target_filters`: Contains `category_codes` (ADS-B aircraft categories) and `description_keywords` to match specific flight types.
 - `alert_config`: SMTP recipient definitions (`email_to`, `email_cc`).
 
