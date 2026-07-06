@@ -5,8 +5,13 @@ def data_quality_check(config, **kwargs):
     aircraft_list = raw_data.get('ac', [])
     valid_records = []
     
+    import logging
+    logger = logging.getLogger(__name__)
+
     target_categories = config.get('target_filters', {}).get('category_codes', [])
     target_keywords = config.get('target_filters', {}).get('description_keywords', [])
+    
+    logger.info(f"Total AC pulled: {len(aircraft_list)}. Filter lists: {target_categories}, {target_keywords}")
     
     for aircraft in aircraft_list:
         if not aircraft.get('hex'):
@@ -36,14 +41,9 @@ def data_quality_check(config, **kwargs):
             import re
             for kw in target_keywords:
                 kw_upper = kw.upper()
-                if len(kw_upper) <= 2:
-                    if re.search(r'\b' + re.escape(kw_upper) + r'\b', combined_text):
-                        keyword_match = True
-                        break
-                else:
-                    if kw_upper in combined_text:
-                        keyword_match = True
-                        break
+                if re.search(r'\b' + re.escape(kw_upper) + r'\b', combined_text):
+                    keyword_match = True
+                    break
             
         if not target_categories and not target_keywords:
             is_valid = True
@@ -51,6 +51,7 @@ def data_quality_check(config, **kwargs):
             is_valid = category_match or keyword_match
             
         if is_valid:
+            logger.info(f"MATCH FOUND -> Hex: {aircraft['hex']}, Type: {aircraft.get('t')}, Desc: {aircraft.get('desc')}")
             valid_records.append({
                 'hex': aircraft['hex'],
                 'registration': aircraft.get('r', ''),
