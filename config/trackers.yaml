@@ -6,8 +6,8 @@ trackers:
       lon: 29.0086  # Longitude for Kolektif House Levent Istanbul, Turkey
       radius_nm: 2
     target_filters:
-      category_codes: ["4", "A7", "H"]
-      description_keywords: ["HELI", "ROTOR", "H"]
+      category_codes: []
+      description_keywords: ["H"]
     alert_config:
       email_to: ["omerfarukbasekin@gmail.com"]
       email_cc: ["omerfarukbasekin@gmail.com", "kkalle@arcanor.com"]
