@@ -7,7 +7,7 @@ trackers:
       radius_nm: 2
     target_filters:
       category_codes: ["4", "A7"]
-      description_keywords: ["H", "HELI", "ROTOR"]
+      description_keywords: ["H", "HELI", "ROTOR", "BELL"]
     alert_config:
       email_to: ["omerfarukbasekin@gmail.com"]
       email_cc: ["omerfarukbasekin@gmail.com", "kkalle@arcanor.com"]
